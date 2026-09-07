@@ -1,36 +1,4 @@
 args@{ lib, config, ... }:
-let
-  targetType =
-    with lib.types;
-    submodule {
-      options = {
-        name = lib.mkOption {
-          type = str;
-        };
-        outputs = lib.mkOption {
-          type = raw;
-          default = _: { };
-        };
-        patches = lib.mkOption {
-          type = attrsOf raw;
-          default = { };
-        };
-      };
-    };
-
-  resolverType =
-    with lib.types;
-    submodule {
-
-      freeformType = attrsOf raw;
-
-      options = {
-        name = lib.mkOption {
-          type = str;
-        };
-      };
-    };
-in
 {
   options = {
     flake-bundles = lib.mkOption {
@@ -54,11 +22,11 @@ in
               default = { };
             };
             targets = lib.mkOption {
-              type = attrsOf (either targetType raw);
+              type = attrsOf raw;
               default = { };
             };
             resolvers = lib.mkOption {
-              type = attrsOf (either resolverType raw);
+              type = attrsOf raw;
               default = { };
             };
           };
