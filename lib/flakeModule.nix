@@ -53,11 +53,11 @@ in
               default = { };
             };
             targets = lib.mkOption {
-              type = attrsOf (etiher targetType raw);
+              type = attrsOf (either targetType raw);
               default = { };
             };
             resolvers = lib.mkOption {
-              type = attrsOf (etiher resolverType raw);
+              type = attrsOf (either resolverType raw);
               default = { };
             };
           };
