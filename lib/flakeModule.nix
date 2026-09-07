@@ -35,24 +35,44 @@ in
     flake-bundles = lib.mkOption {
       type =
         with lib.types;
-        attrsOf (submodule {
-
-          freeformType = lazyAttrsOf anything;
-
+        submodule {
           options = {
-            target = lib.mkOption {
-              type = either targetType raw;
+            bundles = lib.mkOption {
+              type = attrsOf (submodule {
+
+                freeformType = lazyAttrsOf anything;
+
+                options = {
+                  target = lib.mkOption { type = either targetType raw; };
+                  resolvers = lib.mkOption {
+                    type = listOf (either resolverType raw);
+                    default = [ ];
+                  };
+                };
+              });
+              default = { };
+            };
+            targets = lib.mkOption {
+              type = attrsOf (etiher targetType raw);
+              default = { };
             };
             resolvers = lib.mkOption {
-              type = listOf (either resolverType raw);
-              default = [ ];
+              type = attrsOf (etiher resolverType raw);
+              default = { };
             };
           };
-        });
+        };
       default = { };
       description = "";
     };
   };
 
-  config.flake = (import ./resolve.nix args) config.flake-bundles;
+  config.flake =
+    (import ./resolve.nix args) config.flake-bundles.bundles
+    // (lib.optionalAttrs (config.flake-bundles.targets != { }) {
+      flakeBundleTargets = config.flake-bundles.targets;
+    })
+    // (lib.optionalAttrs (config.flake-bundles.resolvers != { }) {
+      flakeBundleResolvers = config.flake-bundles.resolvers;
+    });
 }
