@@ -29,21 +29,23 @@ let
       ];
     };
 
+  bindBundle =
+    bundle:
+    bundle
+    // {
+      target = bind bundle.target;
+      resolvers = map bind bundle.resolvers;
+    };
+
   resolveBundle =
     name: bundle:
     produce {
-      inherit name;
-      bundle = bundle // {
-        target = bind bundle.target;
-      };
+      inherit name bundle;
       modules = lib.flatten (
         map (
           resolver:
           resolve {
-            bundle = bundle // {
-              target = bind bundle.target;
-            };
-            resolver = bind resolver;
+            inherit bundle resolver;
           }
         ) bundle.resolvers
       );
@@ -52,5 +54,7 @@ let
 in
 bundles:
 builtins.foldl' lib.recursiveUpdate { } (
-  builtins.attrValues (builtins.mapAttrs resolveBundle bundles)
+  builtins.attrValues (
+    builtins.mapAttrs (name: bundle: resolveBundle name (bindBundle bundle)) bundles
+  )
 )
