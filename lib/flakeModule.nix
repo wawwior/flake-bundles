@@ -3,9 +3,6 @@ let
   targetType =
     with lib.types;
     submodule {
-
-      freeformType = attrsOf raw;
-
       options = {
         name = lib.mkOption {
           type = str;
@@ -13,6 +10,10 @@ let
         outputs = lib.mkOption {
           type = raw;
           default = _: { };
+        };
+        patches = lib.mkOption {
+          type = attrsOf raw;
+          default = { };
         };
       };
     };

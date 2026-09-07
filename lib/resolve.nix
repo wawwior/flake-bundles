@@ -8,7 +8,7 @@ let
       bundle,
       resolver,
     }:
-    (resolver.${bundle.target.name} or (_: [ ])) (
+    (resolver.${bundle.target.name} or bundle.target.patches.${resolver.name} or (_: [ ])) (
       removeAttrs bundle [
         "target"
         "resolvers"
