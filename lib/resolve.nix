@@ -3,23 +3,17 @@ let
 
   bind = f: if builtins.isFunction f then f args else f;
 
-  preprocess = { bundle, resolver }: {
-    inherit bundle resolver;
-    result = (bundle.target.${resolver.name} or (_: _)) (
+  resolve =
+    {
+      bundle,
+      resolver,
+    }:
+    (resolver.${bundle.target.name} or (_: [ ])) (
       removeAttrs bundle [
         "target"
         "resolvers"
       ]
     );
-  };
-
-  resolve =
-    {
-      bundle,
-      resolver,
-      result,
-    }:
-    (resolver.${bundle.target.name} or (_: [ ])) result;
 
   produce =
     {
@@ -45,12 +39,12 @@ let
       modules = lib.flatten (
         map (
           resolver:
-          resolve (preprocess {
+          resolve {
             bundle = bundle // {
               target = bind bundle.target;
             };
             resolver = bind resolver;
-          })
+          }
         ) bundle.resolvers
       );
     };
