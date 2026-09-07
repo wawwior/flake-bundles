@@ -44,9 +44,9 @@ in
                 freeformType = lazyAttrsOf anything;
 
                 options = {
-                  target = lib.mkOption { type = either targetType raw; };
+                  target = lib.mkOption { type = raw; };
                   resolvers = lib.mkOption {
-                    type = listOf (either resolverType raw);
+                    type = listOf raw;
                     default = [ ];
                   };
                 };
