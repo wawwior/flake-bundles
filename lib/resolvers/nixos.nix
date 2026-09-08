@@ -17,9 +17,7 @@
           users = builtins.mapAttrs (name: value: {
             name = value.name or name;
             isNormalUser = value.normal or lib.mkDefault false;
-            openssh.authorizedKeys = {
-              inherit (value) keys;
-            };
+            openssh.authorizedKeys.keys = value.keys or [ ];
           }) users;
         };
       }
