@@ -16,7 +16,7 @@
           mutableUsers = lib.mkDefault false;
           users = builtins.mapAttrs (name: value: {
             name = value.name or name;
-            isNormalUser = value.normal;
+            isNormalUser = value.normal or lib.mkDefault false;
             openssh.authorizedKeys = {
               inherit (value) keys;
             };
