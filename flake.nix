@@ -8,7 +8,6 @@
 
       flakeBundleResolvers = {
         nixos = import ./lib/resolvers/nixos.nix;
-        user = import ./lib/resolvers/user.nix;
         home = import ./lib/resolvers/home.nix;
       };
 
