@@ -4,7 +4,6 @@
     {
       users ? { },
       aspects ? [ ],
-      version ? null,
       ...
     }:
     let
@@ -16,7 +15,6 @@
     (map (aspect: aspect.resolve { class = "nixos"; }) aspects')
     ++ [
       {
-        system.stateVersion = lib.mkIf (version != null) version;
         users.users = builtins.mapAttrs (name: value: {
           name = value.name or name;
           isNormalUser = value.normal;

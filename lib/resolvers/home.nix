@@ -1,11 +1,10 @@
-{ inputs, lib, ... }:
+{ inputs, ... }:
 {
   name = "home";
   host =
     {
       aspects ? [ ],
       users ? { },
-      version ? null,
       ...
     }:
     let
@@ -16,11 +15,7 @@
         imports = [ inputs.home-manager.nixosModules.default ];
 
         home-manager = {
-          sharedModules = map (aspect: aspect.resolve { class = "home"; }) aspects ++ [
-            {
-              home.stateVersion = lib.mkIf (version != null) version;
-            }
-          ];
+          sharedModules = map (aspect: aspect.resolve { class = "home"; }) aspects;
           users = builtins.mapAttrs (_: aspects: {
             imports = map (aspect: aspect.resolve { class = "home"; }) aspects;
           }) users';
