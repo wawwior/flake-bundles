@@ -15,10 +15,13 @@
     (map (aspect: aspect.resolve { class = "nixos"; }) aspects')
     ++ [
       {
-        users.users = builtins.mapAttrs (name: value: {
-          name = value.name or name;
-          isNormalUser = value.normal;
-        }) users';
+        users = {
+          mutableUsers = lib.mkDefault false;
+          users = builtins.mapAttrs (name: value: {
+            name = value.name or name;
+            isNormalUser = value.normal;
+          }) users';
+        };
       }
     ];
 }

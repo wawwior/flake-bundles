@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   name = "home";
   host =
@@ -15,6 +15,8 @@
         imports = [ inputs.home-manager.nixosModules.default ];
 
         home-manager = {
+          useGlobalPkgs = lib.mkDefault true;
+          useUserPackages = lib.mkDefault true;
           sharedModules = map (aspect: aspect.resolve { class = "home"; }) aspects;
           users = builtins.mapAttrs (_: aspects: {
             imports = map (aspect: aspect.resolve { class = "home"; }) aspects;
