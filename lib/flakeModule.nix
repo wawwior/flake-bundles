@@ -1,4 +1,7 @@
 args@{ lib, config, ... }:
+let
+  types = import ./types.nix args;
+in
 {
   options = {
     flake-bundles = lib.mkOption {
@@ -9,7 +12,7 @@ args@{ lib, config, ... }:
             bundles = lib.mkOption {
               type = attrsOf (submodule {
 
-                freeformType = lazyAttrsOf anything;
+                freeformType = lazyAttrsOf types.anythingConcatLists;
 
                 options = {
                   target = lib.mkOption { type = raw; };
