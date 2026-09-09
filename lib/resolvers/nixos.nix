@@ -7,7 +7,7 @@
       ...
     }:
     let
-      aspects' = aspects ++ (lib.flatten (lib.mapAttrsToList (_: value: value.aspects) users));
+      aspects' = aspects ++ (lib.flatten (lib.mapAttrsToList (_: value: value.aspects or [ ]) users));
     in
     (map (aspect: aspect.resolve { class = "nixos"; }) aspects')
     ++ [

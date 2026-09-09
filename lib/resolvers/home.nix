@@ -8,7 +8,7 @@
       ...
     }:
     let
-      users' = builtins.mapAttrs (_: value: value.aspects) users;
+      users' = builtins.mapAttrs (_: value: value.aspects or [ ]) users;
     in
     [
       {
