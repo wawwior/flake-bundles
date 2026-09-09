@@ -14,9 +14,13 @@
       {
         users = {
           mutableUsers = lib.mkDefault false;
+          groups = builtins.mapAttrs (name: _: { }) users;
           users = builtins.mapAttrs (name: value: {
             name = value.name or name;
-            isNormalUser = value.normal or lib.mkDefault false;
+            group = name;
+            extraGroups = value.groups or [ ];
+            isSystemUser = value.system or false;
+            isNormalUser = !(value.system or false);
             openssh.authorizedKeys.keys = value.keys or [ ];
           }) users;
         };
