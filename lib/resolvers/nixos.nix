@@ -13,8 +13,9 @@
         if name == "root" then
           removeAttrs attrs [
             "name"
+            "uid"
             "group"
-            "extraGroups"
+            "home"
             "isSystemUser"
             "isNormalUser"
           ]
@@ -32,11 +33,7 @@
             cleanRoot name {
               name = value.name or name;
               group = name;
-              extraGroups = value.groups or [ ];
-              isSystemUser = value.system or false;
-              isNormalUser = !(value.system or false);
               hashedPassword = lib.mkIf ((value.password or null) != null) value.password;
-              openssh.authorizedKeys.keys = value.keys or [ ];
             }
           ) users;
         };
