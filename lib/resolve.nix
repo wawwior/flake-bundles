@@ -3,7 +3,7 @@ let
 
   bind = f: if builtins.isFunction f then f args else f;
 
-  transform = bundle: lib.pipe bundle bundle.transforms;
+  transform = bundle: lib.pipe bundle (map (def: def.transform) bundle.transforms);
 
   resolve =
     {
@@ -37,6 +37,7 @@ let
     // {
       target = bind bundle.target;
       resolvers = map bind bundle.resolvers;
+      transforms = map bind bundle.transforms;
     };
 
   resolveBundle =
