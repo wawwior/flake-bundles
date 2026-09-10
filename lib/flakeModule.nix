@@ -11,12 +11,14 @@ in
           options = {
             bundles = lib.mkOption {
               type = attrsOf (submodule {
-
                 freeformType = lazyAttrsOf types.anythingConcatLists;
-
                 options = {
                   target = lib.mkOption { type = raw; };
                   resolvers = lib.mkOption {
+                    type = listOf raw;
+                    default = [ ];
+                  };
+                  preprocessors = lib.mkOption {
                     type = listOf raw;
                     default = [ ];
                   };

@@ -3,6 +3,8 @@ let
 
   bind = f: if builtins.isFunction f then f args else f;
 
+  preprocess = bundle: lib.pipe bundle bundle.preprocessors;
+
   resolve =
     {
       bundle,
@@ -45,7 +47,16 @@ let
         map (
           resolver:
           resolve {
-            inherit bundle resolver;
+            bundle = {
+              inherit (bundle) target resolvers;
+            }
+            // preprocess (
+              removeAttrs bundle [
+                "target"
+                "resolvers"
+              ]
+            );
+            inherit resolver;
           }
         ) bundle.resolvers
       );
