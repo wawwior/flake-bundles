@@ -3,7 +3,7 @@ let
 
   bind = f: if builtins.isFunction f then f args else f;
 
-  preprocess = bundle: lib.pipe bundle bundle.preprocessors;
+  transform = bundle: lib.pipe bundle bundle.transforms;
 
   resolve =
     {
@@ -50,7 +50,7 @@ let
             bundle = {
               inherit (bundle) target resolvers;
             }
-            // preprocess (
+            // transform (
               removeAttrs bundle [
                 "target"
                 "resolvers"

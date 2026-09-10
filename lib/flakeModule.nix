@@ -18,7 +18,7 @@ in
                     type = listOf raw;
                     default = [ ];
                   };
-                  preprocessors = lib.mkOption {
+                  transforms = lib.mkOption {
                     type = listOf raw;
                     default = [ ];
                   };
