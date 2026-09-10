@@ -13,11 +13,7 @@
         if name == "root" then
           removeAttrs attrs [
             "name"
-            "uid"
             "group"
-            "home"
-            "isSystemUser"
-            "isNormalUser"
           ]
         else
           attrs;
