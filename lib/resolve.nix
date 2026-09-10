@@ -44,22 +44,24 @@ let
     name: bundle:
     produce {
       inherit name bundle;
-      modules = lib.flatten (
-        map (
-          resolver:
-          resolve {
-            bundle = {
-              inherit (bundle) target resolvers;
+      modules = (
+        lib.flatten (
+          map (
+            resolver:
+            resolve {
+              bundle = {
+                inherit (bundle) target resolvers;
+              }
+              // transform (
+                removeAttrs bundle [
+                  "target"
+                  "resolvers"
+                ]
+              );
+              inherit resolver;
             }
-            // transform (
-              removeAttrs bundle [
-                "target"
-                "resolvers"
-              ]
-            );
-            inherit resolver;
-          }
-        ) bundle.resolvers
+          ) bundle.resolvers
+        )
       );
     };
 
