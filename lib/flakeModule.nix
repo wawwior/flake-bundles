@@ -4,6 +4,17 @@ let
 in
 {
   options = {
+    flake = {
+      flakeBundleTransforms = lib.mkOption {
+        type = with lib.types; attrsOf anything;
+      };
+      flakeBundleResolvers = lib.mkOption {
+        type = with lib.types; attrsOf anything;
+      };
+      flakeBundleTargets = lib.mkOption {
+        type = with lib.types; attrsOf anything;
+      };
+    };
     flake-bundles = lib.mkOption {
       type =
         with lib.types;
