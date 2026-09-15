@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   ...
 }:
@@ -12,6 +13,9 @@
     }:
     {
       nixosConfigurations.${name} = lib.nixosSystem {
+        specialArgs = {
+          inherit inputs;
+        };
         inherit (bundle) system;
         inherit modules;
       };
